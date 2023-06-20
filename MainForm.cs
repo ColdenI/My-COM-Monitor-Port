@@ -42,7 +42,6 @@ namespace My_COM_Monitor_Port
         private void timer_ConnectUpdate_Tick(object sender, EventArgs e)
         {
             UI_Update();
-            Console.WriteLine(1);
         }
 
         private void UI_Update()
@@ -68,12 +67,14 @@ namespace My_COM_Monitor_Port
                 else this.Text = "My COM Monitor Port - (" + Port.PortName + ", " + Port.BaudRate.ToString() + ") - отключено";
             }
 
-            richTextBox_outCOM.Text = OUT_print;
+            if(!checkBox_pause.Checked)
+                richTextBox_outCOM.Text = OUT_print;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            checkBox_isAddTimeCommand.Checked = Properties.Settings.Default.isTimeMarks;
+            this.Size = Properties.Settings.Default.lastSizeWindow;
         }
 
         private void toolStripButton_connect_Click(object sender, EventArgs e)
@@ -108,8 +109,15 @@ namespace My_COM_Monitor_Port
         {
             if (Port.IsOpen)
             {
-                string str = Port.ReadLine();
-                Console.WriteLine(str);
+                string str = string.Empty;
+                try
+                {
+                    str = Port.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
                 if(checkBox_isAddTimeCommand.Checked)
                     OUT_print = System.DateTime.Now.ToString() + " -> " + str + OUT_print;
                 else
@@ -126,11 +134,6 @@ namespace My_COM_Monitor_Port
         {
             if (listBox_lastCommand.SelectedIndex == -1) return;
             textBox_SendCommand.Text = listBox_lastCommand.Items[listBox_lastCommand.SelectedIndex].ToString();
-        }
-
-        private void textBox_SendCommand_TextChanged(object sender, EventArgs e)
-        {
-            Send_Command();
         }
 
         private void Send_Command()
@@ -172,9 +175,60 @@ namespace My_COM_Monitor_Port
             File.WriteAllText(saveFileDialog.FileName, OUT_print);
         }
 
-        private void textBox_SendCommand_TextChanged_1(object sender, EventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.isTimeMarks = checkBox_isAddTimeCommand.Checked;
+            Properties.Settings.Default.lastSizeWindow = this.Size;
+            Properties.Settings.Default.Save();
 
+            if(Port.IsOpen) Port.Close();
+        }
+
+        private void импортToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Filter = "My COM Monitor Port History|.mcp";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
+            string data = File.ReadAllText(openFileDialog.FileName);
+            bool isAdd = false;
+            if (listBox_lastCommand.Items.Count != 0)
+            {
+                isAdd = MessageBox.Show("В списке уже есть данные. Хотите добавить из файла или заменить на данные из файла?", "?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information) == DialogResult.Yes;
+                if (MessageBox.Show("В списке уже есть данные. Хотите добавить из файла или заменить на данные из файла?", "?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information) == DialogResult.Cancel) return;
+            }
+            List<string> lines = new List<string>();
+            foreach(string i in data.Split("<<|-SPLITER-|>>".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
+                lines.Add(i);
+            if (isAdd) listBox_lastCommand.Items.AddRange(lines.ToArray());
+            else
+            {
+                listBox_lastCommand.Items.Clear();
+                listBox_lastCommand.Items.AddRange(lines.ToArray());
+            }
+        }
+
+        private void экспортToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "My COM Monitor Port History|.mcp)";
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
+            string data = "";
+            foreach(string i in listBox_lastCommand.Items)
+                data += i + "<<|-SPLITER-|>>";
+            File.WriteAllText(saveFileDialog.FileName, data.Remove(data.Length - 15, 15));
+        }
+
+        private void textBox_SendCommand_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Send_Command();
+            }
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutForm().ShowDialog();
         }
     }
 }
