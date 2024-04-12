@@ -45,8 +45,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(563, 357);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "Программа позволяет открыть последовательный порт для общения. Позволяет получать" +
-    " и отправлять запросы по COM порту.\n\n";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // panel1
             // 
@@ -101,7 +100,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(250, 63);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Автор проекта: Акулин А.Д.\r\n\r\nВерсия: 1.0.0.0\r\n";
+            this.label3.Text = "Автор проекта: Акулин А.Д.\r\n\r\nВерсия: 2.0.0.0\r\n";
             // 
             // AboutForm
             // 

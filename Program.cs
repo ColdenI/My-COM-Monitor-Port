@@ -16,7 +16,7 @@ namespace My_COM_Monitor_Port
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm_());
         }
     }
 }
