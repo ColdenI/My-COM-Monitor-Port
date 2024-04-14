@@ -34,6 +34,7 @@
             this.toolStripTextBoxSerialPortName = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_removePage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -46,6 +47,7 @@
             this.toolStripButton_update = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel_status = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_openChart = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox_SendCommand = new System.Windows.Forms.TextBox();
             this.button_SendCommand = new System.Windows.Forms.Button();
@@ -54,13 +56,12 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.richTextBox_outCOM = new System.Windows.Forms.RichTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkBox_streamRead = new System.Windows.Forms.CheckBox();
             this.checkBox_pause = new System.Windows.Forms.CheckBox();
             this.checkBox_isAddTimeCommand = new System.Windows.Forms.CheckBox();
             this.button_clear = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listBox_lastCommand = new System.Windows.Forms.ListBox();
-            this.checkBox_streamRead = new System.Windows.Forms.CheckBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,7 +87,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(986, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(986, 31);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip";
             // 
@@ -96,7 +97,7 @@
             this.toolStripButton_addPage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_addPage.Image")));
             this.toolStripButton_addPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_addPage.Name = "toolStripButton_addPage";
-            this.toolStripButton_addPage.Size = new System.Drawing.Size(80, 24);
+            this.toolStripButton_addPage.Size = new System.Drawing.Size(80, 28);
             this.toolStripButton_addPage.Text = "Добавить";
             this.toolStripButton_addPage.Click += new System.EventHandler(this.toolStripButton_addPage_Click);
             // 
@@ -121,10 +122,21 @@
             this.toolStripButton_removePage.Text = "Удалить";
             this.toolStripButton_removePage.Click += new System.EventHandler(this.toolStripButton_removePage_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(110, 24);
+            this.toolStripButton1.Text = "О Программе";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton_About_Click);
+            // 
             // tabControl
             // 
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tabControl.Location = new System.Drawing.Point(0, 27);
+            this.tabControl.Location = new System.Drawing.Point(0, 31);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(986, 24);
@@ -148,10 +160,11 @@
             this.toolStripButton_disconnect,
             this.toolStripButton_update,
             this.toolStripLabel_status,
-            this.toolStripLabel3});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 51);
+            this.toolStripLabel3,
+            this.toolStripButton_openChart});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 55);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(986, 28);
+            this.toolStrip2.Size = new System.Drawing.Size(986, 31);
             this.toolStrip2.TabIndex = 7;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -246,6 +259,16 @@
             this.toolStripLabel3.Size = new System.Drawing.Size(56, 25);
             this.toolStripLabel3.Text = "Статус:";
             // 
+            // toolStripButton_openChart
+            // 
+            this.toolStripButton_openChart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_openChart.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_openChart.Image")));
+            this.toolStripButton_openChart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_openChart.Name = "toolStripButton_openChart";
+            this.toolStripButton_openChart.Size = new System.Drawing.Size(63, 25);
+            this.toolStripButton_openChart.Text = "График";
+            this.toolStripButton_openChart.Click += new System.EventHandler(this.toolStripButton_openChart_Click);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -253,7 +276,7 @@
             this.panel1.Controls.Add(this.button_SendCommand);
             this.panel1.Controls.Add(this.checkBox_add_newLine);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 79);
+            this.panel1.Location = new System.Drawing.Point(0, 86);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(986, 58);
             this.panel1.TabIndex = 17;
@@ -296,7 +319,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 137);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 144);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -306,7 +329,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(986, 313);
+            this.splitContainer1.Size = new System.Drawing.Size(986, 306);
             this.splitContainer1.SplitterDistance = 639;
             this.splitContainer1.TabIndex = 20;
             // 
@@ -317,7 +340,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(639, 313);
+            this.groupBox2.Size = new System.Drawing.Size(639, 306);
             this.groupBox2.TabIndex = 18;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "История";
@@ -330,7 +353,7 @@
             this.richTextBox_outCOM.Name = "richTextBox_outCOM";
             this.richTextBox_outCOM.ReadOnly = true;
             this.richTextBox_outCOM.ShortcutsEnabled = false;
-            this.richTextBox_outCOM.Size = new System.Drawing.Size(633, 260);
+            this.richTextBox_outCOM.Size = new System.Drawing.Size(633, 253);
             this.richTextBox_outCOM.TabIndex = 8;
             this.richTextBox_outCOM.TabStop = false;
             this.richTextBox_outCOM.Text = "";
@@ -343,10 +366,21 @@
             this.panel2.Controls.Add(this.checkBox_isAddTimeCommand);
             this.panel2.Controls.Add(this.button_clear);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 278);
+            this.panel2.Location = new System.Drawing.Point(3, 271);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(633, 32);
             this.panel2.TabIndex = 19;
+            // 
+            // checkBox_streamRead
+            // 
+            this.checkBox_streamRead.AutoSize = true;
+            this.checkBox_streamRead.Location = new System.Drawing.Point(3, 7);
+            this.checkBox_streamRead.Name = "checkBox_streamRead";
+            this.checkBox_streamRead.Size = new System.Drawing.Size(151, 20);
+            this.checkBox_streamRead.TabIndex = 16;
+            this.checkBox_streamRead.Text = "Потоковое чтение";
+            this.checkBox_streamRead.UseVisualStyleBackColor = true;
+            this.checkBox_streamRead.CheckedChanged += new System.EventHandler(this.checkBox_streamRead_CheckedChanged);
             // 
             // checkBox_pause
             // 
@@ -391,7 +425,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(343, 313);
+            this.groupBox1.Size = new System.Drawing.Size(343, 306);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "История команд";
@@ -404,31 +438,9 @@
             this.listBox_lastCommand.ItemHeight = 16;
             this.listBox_lastCommand.Location = new System.Drawing.Point(3, 18);
             this.listBox_lastCommand.Name = "listBox_lastCommand";
-            this.listBox_lastCommand.Size = new System.Drawing.Size(337, 292);
+            this.listBox_lastCommand.Size = new System.Drawing.Size(337, 285);
             this.listBox_lastCommand.TabIndex = 13;
             this.listBox_lastCommand.SelectedIndexChanged += new System.EventHandler(this.listBox_lastCommand_SelectedIndexChanged);
-            // 
-            // checkBox_streamRead
-            // 
-            this.checkBox_streamRead.AutoSize = true;
-            this.checkBox_streamRead.Location = new System.Drawing.Point(3, 7);
-            this.checkBox_streamRead.Name = "checkBox_streamRead";
-            this.checkBox_streamRead.Size = new System.Drawing.Size(151, 20);
-            this.checkBox_streamRead.TabIndex = 16;
-            this.checkBox_streamRead.Text = "Потоковое чтение";
-            this.checkBox_streamRead.UseVisualStyleBackColor = true;
-            this.checkBox_streamRead.CheckedChanged += new System.EventHandler(this.checkBox_streamRead_CheckedChanged);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(110, 24);
-            this.toolStripButton1.Text = "О Программе";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton_About_Click);
             // 
             // MainForm_
             // 
@@ -498,5 +510,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.CheckBox checkBox_streamRead;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton_openChart;
     }
 }

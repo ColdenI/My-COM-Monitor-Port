@@ -6,8 +6,13 @@ using System.Windows.Forms;
 
 namespace My_COM_Monitor_Port
 {
-    internal class COMPort : ICOMPort
+    public class COMPort : ICOMPort
     {
+        public delegate void DSeriapPort_DataReceived(string data);
+        public delegate void DSerialPortChangeConnecting(bool isConnecting);
+        public event DSeriapPort_DataReceived SeriapPort_DataReceivedEvent;
+        public event DSerialPortChangeConnecting SerialPortChangeConnectingEvent;
+
         private SerialPort SerialPort;
 
         private string _name;
@@ -20,6 +25,7 @@ namespace My_COM_Monitor_Port
         public string Port { get => _port; set => _port = value; }
         public int Speed { get => _speed; set => _speed = value; }
         public bool IsConnected => SerialPort.IsOpen;
+        public string Status => IsConnected ? "Подключено" : "Отключено";
 
         public bool AddedTimeInHistoryMessage = false;
         public bool ReadLineOrReadExisting = true;
@@ -89,6 +95,7 @@ namespace My_COM_Monitor_Port
                 try
                 {
                     data = ReadLineOrReadExisting ? SerialPort.ReadLine() : SerialPort.ReadExisting();
+                    SeriapPort_DataReceivedEvent?.Invoke(data);
                 }
                 catch (Exception ex)
                 {
@@ -96,7 +103,7 @@ namespace My_COM_Monitor_Port
                 }
 
                 if (AddedTimeInHistoryMessage)
-                    messageHistory = System.DateTime.Now.ToString() + " -> " + data + "\n" + messageHistory;
+                    messageHistory = $"{DateTime.Now}:{MillisecondsToString(DateTime.Now.Millisecond)} -> {data}\n {messageHistory}";
                 else
                     messageHistory = data + messageHistory;
             }
@@ -109,6 +116,7 @@ namespace My_COM_Monitor_Port
             try
             {
                 SerialPort.Open();
+                SerialPortChangeConnectingEvent?.Invoke(SerialPort.IsOpen);
             }
             catch (Exception ex)
             {
@@ -120,6 +128,7 @@ namespace My_COM_Monitor_Port
         {
             if (!SerialPort.IsOpen) return;
             SerialPort.Close();
+            SerialPortChangeConnectingEvent?.Invoke(SerialPort.IsOpen);
         }
 
         public bool SendCommsnd(string message)
@@ -133,7 +142,7 @@ namespace My_COM_Monitor_Port
             return true;
         }
 
-        public void ClearHistory() => messageHistory = string.Empty;
+        public void ClearHistory() => messageHistory = string.Empty ;
 
         public COMPortData PackData()
         {
@@ -146,6 +155,13 @@ namespace My_COM_Monitor_Port
             data.Added_NL_writeSerial = Added_NL_writeSerial;
             data.ReadLineOrReadExisting = ReadLineOrReadExisting;
             return data;
+        }
+
+        private static string MillisecondsToString(int ms)
+        {
+            if (ms >= 100) return ms.ToString();
+            else if (ms >= 10) return "0" + ms.ToString();
+            else return "00" + ms.ToString();
         }
     }
 

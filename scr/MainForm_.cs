@@ -154,6 +154,7 @@ namespace My_COM_Monitor_Port
 
             toolStripButton_disconnect.Enabled = obj.IsConnected;
             toolStripButton_connect.Enabled = !obj.IsConnected;
+            toolStripButton_openChart.Enabled = obj.IsConnected;
             toolStripButton_connect.Enabled = (toolStripComboBox_ports.Items.Contains(toolStripComboBox_ports.Text) && !obj.IsConnected && toolStripComboBox_speed.Items.Contains(toolStripComboBox_speed.Text));
             if (obj.IsConnected)
             {
@@ -251,5 +252,9 @@ namespace My_COM_Monitor_Port
 
         #endregion
 
+        private void toolStripButton_openChart_Click(object sender, EventArgs e)
+        {
+            new ChartForm(COMPorts[tabControl.SelectedIndex]).Show();
+        }
     }
 }
